@@ -1,29 +1,6 @@
 import pygame, sys, os
-from pygame.locals import *
-import random
- 
-# pygame.init()
-# pygame.display.init()
- 
-# FPS = 10
-# FramePerSec = pygame.time.Clock()
- 
-# # Predefined some colors
-# BLUE  = (0, 0, 255)
-# RED   = (255, 0, 0)
-# GREEN = (0, 255, 0)
-# BLACK = (0, 0, 0)
-# WHITE = (255, 255, 255)
- 
-# # Screen information
-# SCREEN_WIDTH = 800
-# SCREEN_HEIGHT = 600
- 
-# DISPLAYSURFACE = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-# pygame.display.set_caption("Chess Game")
-
-# FONT = pygame.font.SysFont(None, 48)
- 
+from pygame.locals import * 
+  
  
 class game():
       def __init__(self):
@@ -48,8 +25,6 @@ class game():
             pygame.display.set_caption("Chess Game")
 
             self.FONT = pygame.font.SysFont(None, 48)
-
-
             
 
       def on_event(self, event):
@@ -60,7 +35,7 @@ class game():
                   pygame.quit()
                   sys.exit()
             elif mouse_buttons[0] == True: # left click
-                  print("AAAAAA")
+                  pass
             
 
 
@@ -78,20 +53,43 @@ class chessPiece(pygame.sprite.Sprite, game):
                   
       def render(self, surface):
             surface.blit(self.image, self.rect) 
- 
- 
+
+
+class boardTile():
+      """
+      Object to track the state of each tile.
+      """
+      def __init__(self, name, piece):
+            self.tile_name = name
+            self.piece = piece
+            # self.tile_position = pass
+            """
+            quiero hacer click en una casilla y que se imprima en la consola
+            """
+
+      def render(self, boardState):
+            self.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+            self.lettersToInt = [65, 66, 67, 68, 69, 70, 71, 72]
+            self.indexes = [1, 2, 3, 4, 5, 6, 7, 8]
+
+            for row in boardState:
+                  for tile in row:
+                        pass
+
+
+      
+      
 class chessBoard(pygame.sprite.Sprite, game):
       def __init__(self):
             super(pygame.sprite.Sprite, self).__init__()
             super().__init__()
             # each cell is 32x32px, the board is 8cells x 8cells = 256x256px
             self.image = pygame.image.load(os.path.join(os.getcwd(), "assets", "BOARD.png"))
+            self.brownTile = pygame.image.load(os.path.join(os.getcwd(), "assets", "brown-tile.png"))
+            self.whiteTile = pygame.image.load(os.path.join(os.getcwd(), "assets", "white-tile.png"))
             self.rect = self.image.get_rect()
             self.position = (self.SCREEN_WIDTH/10, self.SCREEN_HEIGHT/8)
-            # self.rect.left = 64 # pixels from the left
-            # self.rect.top = 64  # pixels from the top
             self.rect.topleft = self.position
-            self.font = self.FONT.render("HOLA MUNDO", False, self.WHITE)
             self.starting_board = [
                   ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
                   ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
@@ -103,6 +101,9 @@ class chessBoard(pygame.sprite.Sprite, game):
                   ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"]
             ]
 
+            self.a = boardTile("aa", "bb")
+            print(self.a.piece)
+
  
       def update(self):
             pressed_keys = pygame.key.get_pressed()
@@ -113,11 +114,18 @@ class chessBoard(pygame.sprite.Sprite, game):
       
  
       def render(self, surface):
-            surface.blit(self.image, self.rect)
+            self.font = self.FONT.render("HOLA MUNDO", False, self.WHITE)
+            
+            surface.blit(self.image, self.rect) # board image
             surface.blit(self.font, (self.position[0], self.position[1]))
 
-            for col, line in self.starting_board:
-                  print(col)
+            
+
+            
+            # for row in self.starting_board:
+                  # for i in row:
+                        # print(i)
+
 
       def on_event(self, event):
             super().on_event(event)
@@ -126,25 +134,7 @@ class chessBoard(pygame.sprite.Sprite, game):
 
       def get_state(self):
             pass
-                  
 
-P = ("WHITE","peon", "h7")
-
-# def translator(piece):
-      # if piece[0] == "white":
-            # render_piece("WHITE_PEON")
-            
-      # return piece_updated
-# coord = [
-#       [R, N, B, Q, K, B, N, R],
-#       [P, P, P, P, P, P, P, P],
-#       [0, 0, 0, 0, 0, 0, 0, 0],
-#       [0, 0, 0, 0, 0, 0, 0, 0],
-#       [0, 0, 0, 0, 0, 0, 0, 0],
-#       [0, 0, 0, 0, 0, 0, 0, 0],
-#       [P, P, P, P, P, P, P, P],
-#       [R, N, B, Q, K, B, N, R]
-# ]
 
 
 
@@ -153,6 +143,17 @@ if __name__ == "__main__":
       board = chessBoard()
       # piece = chessPiece("bK")
       # g.run()
+
+      FPS = 10
+
+      boardState = board.starting_board
+      # print(boardState)
+      for row in board.starting_board:
+            print(row)
+            
+
+      print(g.DISPLAYSURFACE.get_size())
+      
       while True:     
             for event in pygame.event.get():
                   _event = g.on_event(event)
@@ -166,20 +167,4 @@ if __name__ == "__main__":
             # piece.render(game.DISPLAYSURFACE)
 
             pygame.display.update()
-            game.FramePerSec.tick(FPS)
-
-      # while True:     
-      #       for event in pygame.event.get():
-      #             on_event()
-
-
-      #       board.update()
-      #       piece.move()
-
-      #       DISPLAYSURFACE.fill((200, 200, 200))
-      #       board.render(DISPLAYSURFACE)
-      #       piece.render(DISPLAYSURFACE)
-
-      #       pygame.display.update()
-      #       FramePerSec.tick(FPS)
-      
+            g.FramePerSec.tick(FPS)
