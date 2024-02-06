@@ -46,8 +46,12 @@ pygame.display.set_caption("MenuSystem")
 FONT = pygame.font.SysFont(None, 40)
 
 def on_event(event):
-
-    global GAME_STATE
+    """
+    Event handler
+    returns: void
+    """
+    
+    global GAME_STATE # Using the variable in a global context
     
     pressed_keys = pygame.key.get_pressed()
     mouse_buttons = pygame.mouse.get_pressed()
@@ -71,7 +75,7 @@ def on_event(event):
             
 
 class Button():
-    def __init__(self, surface, pos, size = (200, 60), color = BLUE):
+    def __init__(self, surface, pos, size = (200, 60), color = BLUE, text):
         """
         surface -> pygame.Surface
           Surface where to put the button.
@@ -86,6 +90,7 @@ class Button():
         self.size = size
         self.color = color
         self.surface = surface
+        self.text = text
         
         self.button = pygame.Surface((100, 30))
         
@@ -103,6 +108,7 @@ def make_button(surface, pos, size = (200, 60), color = BLUE):
       pos[0] as x axis and pos[1] as y axis
     color -> tuple of size 3
       Color choosen
+    returns: pygame Surface as button
     """
     button = pygame.Surface((200, 60))
     button.fill((color[0], color[1], color[2]))
@@ -110,6 +116,13 @@ def make_button(surface, pos, size = (200, 60), color = BLUE):
     return button
 
 def draw_text(text, font, text_color, coords):
+    """
+    font -> pygame font object
+      Gives the font context
+    coords -> tuple of size 2
+      coords[0] as x axis and pos[1] as y axis
+    returns: void    
+    """
     font = font.render(text, True, text_color)
     DISPLAYSURFACE.blit(font, (coords[0], coords[1]))
 
@@ -130,7 +143,7 @@ def run():
             draw_text("HOLA IGÜEPUTAS!!", FONT, BLACK, (160, 250))
 
         btn1.render()
-        draw_text("Jugar", FONT, WHITE, (btn1.x + 20, btn1.y + 30))
+        draw_text("Jugar", FONT, WHITE, (btn1.x, btn1.y))
         
         for event in pygame.event.get():
             on_event(event)
