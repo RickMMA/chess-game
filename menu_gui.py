@@ -94,9 +94,14 @@ class Button():
 
         f = self.font.render(self.text, True, WHITE)
         f_size = f.get_size()
-        print(f_size)
-        DISPLAYSURFACE.blit(f, (self.x + f_size[0]//2, self.y + f_size[1]//2))
-        # draw_text(self.text, self.font, WHITE, (self.x, self.y))
+        btn_width = self.button.get_width()
+        btn_height = self.button.get_height()
+
+        # Center text
+        # TODO: make conditional to choose pos of text
+        x = ((btn_width//2) - (f_size[0]//2)) + self.x
+        y = ((btn_height//2) - (f_size[1]//2)) + self.y
+        DISPLAYSURFACE.blit(f, (x, y))
         
             
 
@@ -121,11 +126,13 @@ def run():
     
     btn1 = Button(DISPLAYSURFACE, pos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2), text = "Jugar")
     while True:
-        DISPLAYSURFACE.fill((220, 220, 220))
+        
 
         if GAME_STATE == False:
+            DISPLAYSURFACE.fill((220, 220, 220))
             draw_text("EL BIDEOJUEGO ESTÁ PAUSADO PUTO", FONT, BLACK, (160, 250))
         else:
+            DISPLAYSURFACE.fill((20, 120, 20))
             draw_text("HOLA IGÜEPUTAS!!", FONT, BLACK, (160, 250))
 
         btn1.render()
