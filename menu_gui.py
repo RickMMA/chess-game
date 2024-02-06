@@ -1,20 +1,3 @@
-
-class Animal():
-    def __init__(self):
-        self.EDAD = 10
-
-class Life():
-    def __init__(self):
-        self.xdd = 69
-
-class Perro(Animal, Life):
-    def __init__(self):
-        super(Animal, self).__init__()
-        super().__init__()
-        print(self.EDAD)
-        print(self.xdd)
-
-# Im going to make a menu system
 import pygame, sys
 from pygame.locals import *
 
@@ -93,13 +76,28 @@ class Button():
         self.color = color
         self.surface = surface
         self.text = text
+        # self.text_size = text_size
+        self.font = pygame.font.SysFont(None, 40)
+        # self.padding = (15, self.font.get_height()-5)
+        self.padding = (0, 0)
+        # font.get_height() is not equal to font.size()
+        # if font size is set to 40, the font height is 27
+
+        # TODO: make text size relative to the size of the button
+        #       meanwhile the font size is fixed
         
-        self.button = pygame.Surface((100, 30))
+        self.button = pygame.Surface((self.size[0], self.size[1]))
         
     def render(self):
         self.button.fill( (self.color[0], self.color[1], self.color[2]) )
-        self.surface.blit(self.button, (self.x, self.y))
-        draw_text(self.text, FONT, WHITE, (self.x, self.y))
+        self.surface.blit(self.button, (self.x - self.padding[0], self.y - self.padding[1]))
+
+        f = self.font.render(self.text, True, WHITE)
+        f_size = f.get_size()
+        print(f_size)
+        DISPLAYSURFACE.blit(f, (self.x + f_size[0]//2, self.y + f_size[1]//2))
+        # draw_text(self.text, self.font, WHITE, (self.x, self.y))
+        
             
 
 def draw_text(text, font, text_color, coords): # Text drawing utility
