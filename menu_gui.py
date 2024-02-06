@@ -75,7 +75,7 @@ def on_event(event):
             
 
 class Button():
-    def __init__(self, surface, pos, size = (200, 60), color = BLUE, text):
+    def __init__(self, surface, pos, size = (200, 60), color = BLUE, text = ""):
         """
         surface -> pygame.Surface
           Surface where to put the button.
@@ -85,6 +85,8 @@ class Button():
         color -> tuple of size 3
           Color choosen
         """
+        # global FONT, WHITE
+        
         self.x = pos[0]
         self.y = pos[1]
         self.size = size
@@ -95,27 +97,12 @@ class Button():
         self.button = pygame.Surface((100, 30))
         
     def render(self):
-        self.button.fill((self.color[0], self.color[1], self.color[2]))
+        self.button.fill( (self.color[0], self.color[1], self.color[2]) )
         self.surface.blit(self.button, (self.x, self.y))
+        draw_text(self.text, FONT, WHITE, (self.x, self.y))
             
 
-def make_button(surface, pos, size = (200, 60), color = BLUE):
-    """
-    surface -> pygame.Surface
-      Surface where to put the button.
-    pos -> tuple of size 2
-      Coordinates where to put the button.
-      pos[0] as x axis and pos[1] as y axis
-    color -> tuple of size 3
-      Color choosen
-    returns: pygame Surface as button
-    """
-    button = pygame.Surface((200, 60))
-    button.fill((color[0], color[1], color[2]))
-    surface.blit(button, (pos[0], pos[1]))
-    return button
-
-def draw_text(text, font, text_color, coords):
+def draw_text(text, font, text_color, coords): # Text drawing utility
     """
     font -> pygame font object
       Gives the font context
@@ -130,10 +117,11 @@ def draw_text(text, font, text_color, coords):
 def display_menu():
     pass
 
+
 def run():
     game_running = True
     
-    btn1 = Button(DISPLAYSURFACE, pos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+    btn1 = Button(DISPLAYSURFACE, pos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2), text = "Jugar")
     while True:
         DISPLAYSURFACE.fill((220, 220, 220))
 
@@ -143,7 +131,6 @@ def run():
             draw_text("HOLA IGÜEPUTAS!!", FONT, BLACK, (160, 250))
 
         btn1.render()
-        draw_text("Jugar", FONT, WHITE, (btn1.x, btn1.y))
         
         for event in pygame.event.get():
             on_event(event)
