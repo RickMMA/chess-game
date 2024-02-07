@@ -7,7 +7,7 @@ class game():
             pygame.init()
             pygame.display.init()
 
-            self.FPS = 1
+            self.FPS = 2
             self.FramePerSec = pygame.time.Clock()
             self.gameState = True
 
@@ -32,12 +32,16 @@ class game():
       def on_event(self, event):
             pressed_keys = pygame.key.get_pressed()
             mouse_buttons = pygame.mouse.get_pressed()
+            self._evento = event
             
             if event.type == QUIT:
                   pygame.quit()
                   sys.exit()
-            elif mouse_buttons[0] == True: # left click
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                  # print(event.get())
                   pass
+            elif mouse_buttons[0] == True: # left click
+                  pass                  
             elif event.type == pygame.KEYDOWN:
                   if event.key == pygame.K_ESCAPE:
                         if self.gameState == True:
@@ -153,16 +157,17 @@ if __name__ == "__main__":
       board = chessBoard()
 
       boardState = board.starting_board
-            
+
+      img = pygame.image.load(os.path.join(os.getcwd(), "assets", "chess-1280.jpg"))
+      img = pygame.transform.scale(img, (g.SCREEN_WIDTH, g.SCREEN_HEIGHT))
 
       while True:
-
+            for event in pygame.event.get():
+                  g.on_event(event)
             
             board.update()
             # piece.move()
-
             if g.gameState == False:
-                  img = pygame.image.load(os.path.join(os.getcwd(), "assets", "chess-1280.jpg"))
                   g.DISPLAYSURFACE.blit(img, (0, 0))
             else:
                   g.DISPLAYSURFACE.fill((200, 200, 200))
@@ -170,9 +175,7 @@ if __name__ == "__main__":
             # piece.render(game.DISPLAYSURFACE)
             # print(g.gameState)
 
-            for event in pygame.event.get():
-                  g.on_event(event)
 
-            
             pygame.display.update()
-            g.FramePerSec.tick(FPS)
+            g.FramePerSec.tick(g.FPS)
+
