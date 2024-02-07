@@ -7,8 +7,9 @@ class game():
             pygame.init()
             pygame.display.init()
 
-            self.FPS = 10
+            self.FPS = 1
             self.FramePerSec = pygame.time.Clock()
+            self.gameState = True
 
             # Predefined some colors
             self.BLUE  = (0, 0, 255)
@@ -25,6 +26,7 @@ class game():
             pygame.display.set_caption("Chess Game")
 
             self.FONT = pygame.font.SysFont(None, 48)
+
             
 
       def on_event(self, event):
@@ -36,6 +38,14 @@ class game():
                   sys.exit()
             elif mouse_buttons[0] == True: # left click
                   pass
+            elif event.type == pygame.KEYDOWN:
+                  if event.key == pygame.K_ESCAPE:
+                        if self.gameState == True:
+                              self.gameState = False
+                        else:
+                              self.gameState = True 
+                        
+                  
             
 
 
@@ -141,30 +151,28 @@ class chessBoard(pygame.sprite.Sprite, game):
 if __name__ == "__main__":
       g = game()
       board = chessBoard()
-      # piece = chessPiece("bK")
-      # g.run()
-
-      FPS = 10
 
       boardState = board.starting_board
-      # print(boardState)
-      for row in board.starting_board:
-            print(row)
             
 
-      print(g.DISPLAYSURFACE.get_size())
-      
-      while True:     
-            for event in pygame.event.get():
-                  _event = g.on_event(event)
+      while True:
 
-
+            
             board.update()
             # piece.move()
 
-            g.DISPLAYSURFACE.fill((200, 200, 200))
-            board.render(g.DISPLAYSURFACE)
+            if g.gameState == False:
+                  img = pygame.image.load(os.path.join(os.getcwd(), "assets", "chess-1280.jpg"))
+                  g.DISPLAYSURFACE.blit(img, (0, 0))
+            else:
+                  g.DISPLAYSURFACE.fill((200, 200, 200))
+                  board.render(g.DISPLAYSURFACE)
             # piece.render(game.DISPLAYSURFACE)
+            # print(g.gameState)
 
+            for event in pygame.event.get():
+                  g.on_event(event)
+
+            
             pygame.display.update()
             g.FramePerSec.tick(FPS)
