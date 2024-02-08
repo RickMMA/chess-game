@@ -2,7 +2,7 @@ import pygame
 # from pygame.locals import *   # not using it right now
 
 class Button():
-    def __init__(self, surface, pos, size = (200, 60), color = BLUE, text = ""):
+    def __init__(self, surface, pos, size = (200, 60), color = (0, 0, 255), text = "", font = ""):
         """
         surface -> pygame.Surface
           Surface where to put the button.
@@ -20,7 +20,8 @@ class Button():
         self.surface = surface
         self.text = text
         # self.text_size = text_size
-        self.font = pygame.font.SysFont(None, 40)
+        # self.font = pygame.font.SysFont(None, 40)
+        self.font = font
         # self.padding = (15, self.font.get_height()-5)
         self.padding = (0, 0)
         # font.get_height() is not equal to font.size()
@@ -35,7 +36,7 @@ class Button():
         self.button.fill( (self.color[0], self.color[1], self.color[2]) )
         self.surface.blit(self.button, (self.x - self.padding[0], self.y - self.padding[1]))
 
-        f = self.font.render(self.text, True, WHITE)
+        f = self.font.render(self.text, True, (255, 255, 255))
         f_size = f.get_size()
         btn_width = self.button.get_width()
         btn_height = self.button.get_height()
@@ -44,4 +45,4 @@ class Button():
         # TODO: make conditional to choose pos of text
         x = ((btn_width//2) - (f_size[0]//2)) + self.x
         y = ((btn_height//2) - (f_size[1]//2)) + self.y
-        DISPLAYSURFACE.blit(f, (x, y))
+        self.surface.blit(f, (x, y))
