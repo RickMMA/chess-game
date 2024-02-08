@@ -1,5 +1,6 @@
 import pygame, sys, os
-from pygame.locals import * 
+from pygame.locals import *
+from menu_gui import Button
   
  
 class game():
@@ -161,14 +162,18 @@ if __name__ == "__main__":
       img = pygame.image.load(os.path.join(os.getcwd(), "assets", "chess-1280.jpg"))
       img = pygame.transform.scale(img, (g.SCREEN_WIDTH, g.SCREEN_HEIGHT))
 
+      btn1 = Button(g.DISPLAYSURFACE, pos = (g.SCREEN_WIDTH/2, g.SCREEN_HEIGHT/2), text="Jugar")
+      btn1.x = g.SCREEN_WIDTH/2 - btn1.size[0]/2
+      btn1.y = g.SCREEN_HEIGHT/2 - btn1.size[1]/2
       while True:
             for event in pygame.event.get():
                   g.on_event(event)
             
             board.update()
             # piece.move()
-            if g.gameState == False:
+            if g.gameState == False: # When the game is paused, i.e.: in the start menu
                   g.DISPLAYSURFACE.blit(img, (0, 0))
+                  btn1.render()
             else:
                   g.DISPLAYSURFACE.fill((200, 200, 200))
                   board.render(g.DISPLAYSURFACE)
