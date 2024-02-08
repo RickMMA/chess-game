@@ -10,7 +10,7 @@ class game():
 
             self.FPS = 2
             self.FramePerSec = pygame.time.Clock()
-            self.gameState = True
+            self.gameState = False
 
             # Predefined some colors
             self.BLUE  = (0, 0, 255)
@@ -163,8 +163,9 @@ if __name__ == "__main__":
       img = pygame.transform.scale(img, (g.SCREEN_WIDTH, g.SCREEN_HEIGHT))
 
       btn1 = Button(g.DISPLAYSURFACE, pos = (g.SCREEN_WIDTH/2, g.SCREEN_HEIGHT/2), text="Jugar")
-      btn1.x = g.SCREEN_WIDTH/2 - btn1.size[0]/2
+      btn1.x = g.SCREEN_WIDTH/2 - btn1.size[0]/2  # centers button
       btn1.y = g.SCREEN_HEIGHT/2 - btn1.size[1]/2
+      title_font = pygame.font.SysFont(None, 100)
       while True:
             for event in pygame.event.get():
                   g.on_event(event)
@@ -174,11 +175,12 @@ if __name__ == "__main__":
             if g.gameState == False: # When the game is paused, i.e.: in the start menu
                   g.DISPLAYSURFACE.blit(img, (0, 0))
                   btn1.render()
+                  f = title_font.render("pyChess", True, g.WHITE)
+                  g.DISPLAYSURFACE.blit(f, (g.SCREEN_WIDTH/2 - f.get_width()/2, g.SCREEN_HEIGHT/4))
             else:
                   g.DISPLAYSURFACE.fill((200, 200, 200))
                   board.render(g.DISPLAYSURFACE)
             # piece.render(game.DISPLAYSURFACE)
-            # print(g.gameState)
 
 
             pygame.display.update()
