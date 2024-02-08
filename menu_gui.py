@@ -69,7 +69,7 @@ class Button():
           Color choosen
         """
         # global FONT, WHITE
-        
+
         self.x = pos[0]
         self.y = pos[1]
         self.size = size
@@ -111,14 +111,10 @@ def draw_text(text, font, text_color, coords): # Text drawing utility
       Gives the font context
     coords -> tuple of size 2
       coords[0] as x axis and pos[1] as y axis
-    returns: void    
+    returns: void
     """
     font = font.render(text, True, text_color)
     DISPLAYSURFACE.blit(font, (coords[0], coords[1]))
-
-
-def display_menu():
-    pass
 
 
 def run():
