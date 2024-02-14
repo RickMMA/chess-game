@@ -30,7 +30,7 @@ FONT = pygame.font.SysFont(None, 48)
 
 TILE_DIMENSION = 32 # 32x32 pixels
 
-rec = pygame.Rect(100, 100, 50, 20)
+rec = pygame.Rect(100, 100, 20, 20)
 surf = pygame.Surface((rec.width, rec.height))
 surf.fill((255, 0, 0))
 
@@ -187,6 +187,7 @@ class chessBoard(pygame.sprite.Sprite):
           surface.blit(font, (self.position[0], self.position[1]))
 
 
+            
 
 
 
@@ -213,16 +214,16 @@ if __name__ == "__main__":
     while True:            
         for event in pygame.event.get():
             on_event(event)
-
-        # board.update()
-        # piece.move()
+            
+        
+        
         if gameState == False: # When the game is paused, i.e.: in the start menu
             DISPLAYSURFACE.blit(img, (0, 0))
             btn1.render()
             f = title_font.render("pyChess", True, WHITE)
             DISPLAYSURFACE.blit(f, (SCREEN_WIDTH/2 - f.get_width()/2, SCREEN_HEIGHT/4))
-            # DISPLAYSURFACE.blit(surf, (rec.x, rec.y))
-            pygame.draw.circle(DISPLAYSURFACE, "red", (mouse_pos[0], mouse_pos[1]), 30, 0)
+            
+            # pygame.draw.circle(DISPLAYSURFACE, "red", (mouse_pos[0], mouse_pos[1]), 30, 0)
         else:
             DISPLAYSURFACE.fill((200, 200, 200))
             board.render(DISPLAYSURFACE)
@@ -230,5 +231,9 @@ if __name__ == "__main__":
                 board.current_board[keys].render(DISPLAYSURFACE)
 
 
+        rec.x = mouse_pos[0] - 10
+        rec.y = mouse_pos[1] - 10
+        DISPLAYSURFACE.blit(surf, (rec.x, rec.y))
+        
         pygame.display.update()
         FramePerSec.tick(FPS)
