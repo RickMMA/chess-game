@@ -8,7 +8,7 @@ global pressed_keys, pressed_mouse, mouse_pos
 pygame.init()
 pygame.display.init()
 
-FPS = 30
+FPS = 10
 FramePerSec = pygame.time.Clock()
 gameState = False
 
@@ -20,8 +20,8 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 # Screen information
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 800
 
 DISPLAYSURFACE = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Chess Game")
@@ -30,7 +30,7 @@ FONT = pygame.font.SysFont(None, 48)
 
 TILE_DIMENSION = 32 # 32x32 pixels
 
-rec = pygame.Rect(100, 100, 20, 20)
+rec = pygame.Rect(100, 100, 20, 20) # mouse collision detection
 surf = pygame.Surface((rec.width, rec.height))
 surf.fill((255, 0, 0))
 
@@ -75,27 +75,21 @@ class chessPiece(pygame.sprite.Sprite):
     def __init__(self, pieceName):
         pygame.sprite.Sprite.__init__(self)
 
-        self.piece = pieceName[0]
-        self.pos = pieceName[1] # piece comes as a tuple eg: ("wP", (0, 0))
+        self.piece = pieceName[0] # piece comes as a tuple eg: ("wP", (0, 0))
+                                  # where index 0 is the piece, and index 1 is position
+
+        self.pos = pieceName[1]   # pos is a tuple (x, y)
         if pieceName[0] != "--":
             self._image = pygame.image.load(
                 os.path.join(os.getcwd(), "assets", "chess_pieces", f"{pieceName[0]}.png")).convert_alpha()
             self.image = pygame.transform.scale_by(self._image, 2)
-        # self.rect = self.image.get_rect()
-        # self.rect.center = (SCREEN_WIDTH-40,40) 
+            self.rect = pygame.Rect((self.pos[0], self.pos[1]), (self.image.get_size()[0], self.image.get_size()[1]))
             
-    def move(self):
-        # self.rect.move_ip(0,10)
-        pass
-                  
     def render(self, surface):
         if self.piece != "--":
             surface.blit(self.image, (self.pos[0], self.pos[1]))
         else:
             pass
-
-    def hello(self):
-        print("hola", self.piece)
 
 
 class boardTile():
@@ -182,7 +176,7 @@ class chessBoard(pygame.sprite.Sprite):
           x = 0
           y = 0
           letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-          numbers = ['1', '2', '3', '4', '5', '6', '7', '8']
+          numbers = ['8', '7', '6', '5', '4', '3', '2', '1']
           for i in range(len(letters)):
               font_l = FONT.render(letters[i], False, WHITE)
               font_n = FONT.render(numbers[i], False, WHITE)
@@ -213,7 +207,9 @@ if __name__ == "__main__":
     for keys, content in board.starting_board.items(): # fill the board with chessPiece object
         board.current_board[keys] = chessPiece(content)
 
-
+    
+    print(dir(board.current_board["A1"]))
+    # print(board.current_board["A1"].image.collide)
     while True:            
         for event in pygame.event.get():
             on_event(event)            
@@ -225,12 +221,17 @@ if __name__ == "__main__":
             f = title_font.render("pyChess", True, WHITE)
             DISPLAYSURFACE.blit(f, (SCREEN_WIDTH/2 - f.get_width()/2, SCREEN_HEIGHT/4))
             
-        else:
+        elif gameState == True:
             DISPLAYSURFACE.fill((200, 200, 200))
             board.render(DISPLAYSURFACE)
             for keys, content in board.starting_board.items():
                 board.current_board[keys].render(DISPLAYSURFACE)
+                _rec = board.current_board['A1'].rect
+                # if 
 
+            # if i want to test collision with mouse position
+            # print( _rec.collidepoint(mouse_pos[0], mouse_pos[1]))
+            
 
         rec.x = mouse_pos[0] - 10
         rec.y = mouse_pos[1] - 10
