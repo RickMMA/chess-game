@@ -32,9 +32,16 @@ class Button():
         
         self.button = pygame.Surface((self.size[0], self.size[1]))
         
+        self.rect = self.button.get_rect()
+        self.is_clicked = False
+        
     def render(self):
         self.button.fill( (self.color[0], self.color[1], self.color[2]) )
-        self.surface.blit(self.button, (self.x - self.padding[0], self.y - self.padding[1]))
+        # self.surface.blit(self.button, (self.x - self.padding[0], self.y - self.padding[1]))
+        self.surface.blit(self.button, (self.x, self.y))
+
+        self.rect.x = self.x # I need to put the rect position here because of changees
+        self.rect.y = self.y # in the coordinates outside the object, like in the game loop 
 
         f = self.font.render(self.text, True, (255, 255, 255))
         f_size = f.get_size()
@@ -46,3 +53,16 @@ class Button():
         x = ((btn_width//2) - (f_size[0]//2)) + self.x
         y = ((btn_height//2) - (f_size[1]//2)) + self.y
         self.surface.blit(f, (x, y))
+
+    def click_button(self):
+        mouse_pos = pygame.mouse.get_pos()
+        left_click = pygame.mouse.get_pressed()[0]
+        
+        self.is_clicked = False
+        # print(self.rect.x, self.rect.y, " y mouse:", mouse_pos)
+        if self.rect.collidepoint(mouse_pos):
+            if left_click == 1 and self.is_clicked == False:
+                print(self.rect.x, self.rect.y, " y ", self.x , self.y )
+                print(self.button.get_rect().x)
+                self.is_clicked = True
+                return self.is_clicked

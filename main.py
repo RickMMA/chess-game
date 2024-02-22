@@ -34,41 +34,6 @@ rec = pygame.Rect(100, 100, 20, 20) # mouse collision detection
 surf = pygame.Surface((rec.width, rec.height))
 surf.fill((255, 0, 0))
 
-
-            
-
-def on_event(event):
-    global gameState, mouse_pos, pressed_keys, pressed_mouse
-    
-    pressed_keys = pygame.key.get_pressed()
-    pressed_mouse = pygame.mouse.get_pressed()
-    mouse_pos = pygame.mouse.get_pos()
-    
-    if event.type == QUIT:
-        pygame.quit()
-        sys.exit()
-    elif event.type == pygame.MOUSEBUTTONDOWN:
-        pass
-    elif event.type == pygame.MOUSEMOTION:
-        # rec.move_ip(mouse_pos[0], mouse_pos[1])
-        rec.x == mouse_pos[0]
-        rec.y == mouse_pos[1]
-        # DISPLAYSURFACE.blit(surf, (mouse_pos[0], mouse_pos[1]))
-    elif event.type == pygame.KEYDOWN:
-        if pressed_keys[K_q]:
-            if gameState == True:
-                gameState = False
-            else:
-                gameState = True
-        elif pressed_keys[K_ESCAPE]:        
-            print(mouse_pos)
-        elif pressed_keys[K_LEFT]:
-            rec.move_ip(-10, 0)
-
-    pygame.event.pump()
-                        
-                        
-                  
             
 class chessPiece(pygame.sprite.Sprite):
     
@@ -169,7 +134,7 @@ class chessBoard(pygame.sprite.Sprite):
           self.current_board = {}
 
 
- 
+
       def render(self, surface):
           surface.blit(self.image, self.rect) # board image
           
@@ -185,8 +150,37 @@ class chessBoard(pygame.sprite.Sprite):
               x += 64
               y += 64
 
-              
-            
+
+
+def on_event(event):
+    global gameState, mouse_pos, pressed_keys, pressed_mouse
+    
+    pressed_keys = pygame.key.get_pressed()
+    pressed_mouse = pygame.mouse.get_pressed()
+    mouse_pos = pygame.mouse.get_pos()
+    
+    if event.type == QUIT:
+        pygame.quit()
+        sys.exit()
+    elif event.type == pygame.MOUSEBUTTONDOWN:
+        pass
+    elif event.type == pygame.MOUSEMOTION:
+        # rec.move_ip(mouse_pos[0], mouse_pos[1])
+        rec.x == mouse_pos[0]
+        rec.y == mouse_pos[1]
+        # DISPLAYSURFACE.blit(surf, (mouse_pos[0], mouse_pos[1]))
+    elif event.type == pygame.KEYDOWN:
+        if pressed_keys[K_q]:
+            if gameState == True:
+                gameState = False
+            else:
+                gameState = True
+        elif pressed_keys[K_ESCAPE]:        
+            print(mouse_pos)
+        elif pressed_keys[K_LEFT]:
+            rec.move_ip(-10, 0)
+
+    pygame.event.pump()
 
 
 
@@ -210,7 +204,8 @@ if __name__ == "__main__":
     
     print(dir(board.current_board["A1"]))
     # print(board.current_board["A1"].image.collide)
-    while True:            
+    while True:
+        
         for event in pygame.event.get():
             on_event(event)            
         
@@ -218,6 +213,8 @@ if __name__ == "__main__":
         if gameState == False: # When the game is paused, i.e.: in the start menu
             DISPLAYSURFACE.blit(img, (0, 0))
             btn1.render()
+            if btn1.click_button() == True:
+                gameState = True
             f = title_font.render("pyChess", True, WHITE)
             DISPLAYSURFACE.blit(f, (SCREEN_WIDTH/2 - f.get_width()/2, SCREEN_HEIGHT/4))
             
@@ -227,7 +224,11 @@ if __name__ == "__main__":
             for keys, content in board.starting_board.items():
                 board.current_board[keys].render(DISPLAYSURFACE)
                 _rec = board.current_board['A1'].rect
-                # if 
+
+                # if _rec.collidepoint(mouse_pos[0], mouse_pos[1] and pressed_mouse[0] == 1:
+                # if pressed_mouse[0] == 1:
+                    # print("yes")                                    
+    
 
             # if i want to test collision with mouse position
             # print( _rec.collidepoint(mouse_pos[0], mouse_pos[1]))
