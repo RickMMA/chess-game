@@ -62,7 +62,5 @@ class Button():
         # print(self.rect.x, self.rect.y, " y mouse:", mouse_pos)
         if self.rect.collidepoint(mouse_pos):
             if left_click == 1 and self.is_clicked == False:
-                print(self.rect.x, self.rect.y, " y ", self.x , self.y )
-                print(self.button.get_rect().x)
                 self.is_clicked = True
-                return self.is_clicked
+                return True

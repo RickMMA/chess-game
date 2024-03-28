@@ -9,7 +9,7 @@ global pressed_keys, pressed_mouse, mouse_pos
 pygame.init()
 pygame.display.init()
 
-FPS = 10
+FPS = 30
 FramePerSec = pygame.time.Clock()
 gameState = False
 
@@ -53,7 +53,10 @@ def on_event(event):
         pygame.quit()
         sys.exit()
     elif event.type == pygame.MOUSEBUTTONDOWN:
-        pass
+        for k, c in board.current_board.items():
+                click = c.clicked()
+                if type(click) == tuple:
+                    print(k, click[1][0], click[1][1])
     elif event.type == pygame.MOUSEMOTION:
         pass
     elif event.type == pygame.KEYDOWN:
@@ -69,7 +72,8 @@ def on_event(event):
 
     pygame.event.pump()
 
-
+    
+        
 
 if __name__ == "__main__":
     board = chessBoard()
@@ -77,10 +81,12 @@ if __name__ == "__main__":
     boardState = board.starting_board
 
     # menu background image 
-    img = pygame.image.load(os.path.join(os.getcwd(), "assets", "chess-1280.jpg")).convert()
+    img = pygame.image.load(os.path.join(os.getcwd(), "assets",
+                                         "chess-1280.jpg")).convert()
     img = pygame.transform.scale(img, (SCREEN_WIDTH, SCREEN_HEIGHT))
       
-    btn1 = Button(DISPLAYSURFACE, pos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2), text="Jugar", font=FONT)
+    btn1 = Button(DISPLAYSURFACE, pos = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
+                                         text="Jugar", font=FONT)
     btn1.x = SCREEN_WIDTH/2 - btn1.size[0]/2  # centers button
     btn1.y = SCREEN_HEIGHT/2 - btn1.size[1]/2
     title_font = pygame.font.SysFont(None, 100)
@@ -89,8 +95,6 @@ if __name__ == "__main__":
         board.current_board[keys] = chessPiece(content)
 
     
-    print(dir(board.current_board["A1"]))
-    # print(board.current_board["A1"].image.collide)
     while True:
         
         for event in pygame.event.get():
@@ -112,14 +116,8 @@ if __name__ == "__main__":
                 board.current_board[keys].render(DISPLAYSURFACE)
                 _rec = board.current_board['A1'].rect
 
-                # if _rec.collidepoint(mouse_pos[0], mouse_pos[1] and pressed_mouse[0] == 1:
-                # if pressed_mouse[0] == 1:
-                    # print("yes")                                    
-    
 
-            # if i want to test collision with mouse position
-            # print( _rec.collidepoint(mouse_pos[0], mouse_pos[1]))
-            
+
 
         rec.x = mouse_pos[0] - 10
         rec.y = mouse_pos[1] - 10
