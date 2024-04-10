@@ -99,6 +99,8 @@ class chessPiece(pygame.sprite.Sprite):
             self.rect = pygame.Rect((self.pos[0], self.pos[1]),
                 (self._image.get_size()[0], self._image.get_size()[1]))
         else:
+            self._image = pygame.image.load(
+                os.path.join(os.getcwd(), "assets", "chess_pieces", f"empty.png")).convert_alpha()
             # Insert rect when there is no piece
             self.rect = pygame.Rect((self.pos[0], self.pos[1]),
                 (self._default_image_size[0], self._default_image_size[1])) 
@@ -107,7 +109,7 @@ class chessPiece(pygame.sprite.Sprite):
             
     def render(self, surface):
         if self.pieceName != "--":
-            surface.blit(self.image, (self.pos[0], self.pos[1]))
+            surface.blit(self._image, (self.pos[0], self.pos[1]))
         else:
             pass
 
@@ -122,6 +124,4 @@ class chessPiece(pygame.sprite.Sprite):
                 # yes you clicked the piece
                 t = (True, (self.pieceName, self.pos))
                 return t
-
-
 

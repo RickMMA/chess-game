@@ -20,6 +20,10 @@ GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+# For draw.rect has alpha value
+SELECT_RED = (200, 10, 20, 50)
+SELECT_GREEN = (0, 200, 20, 10)
+
 # Screen information
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
@@ -35,15 +39,14 @@ rec = pygame.Rect(100, 100, 20, 20) # mouse collision detection
 surf = pygame.Surface((rec.width, rec.height))
 surf.fill((255, 0, 0))
 
-            
-
-      
-      
+select_rect = pygame.Rect((0, 0), (64, 64))
+show_rect = False
 
 
 
 def on_event(event):
     global gameState, mouse_pos, pressed_keys, pressed_mouse
+    global show_rect, select_rect
     
     pressed_keys = pygame.key.get_pressed()
     pressed_mouse = pygame.mouse.get_pressed()
@@ -54,9 +57,17 @@ def on_event(event):
         sys.exit()
     elif event.type == pygame.MOUSEBUTTONDOWN:
         for k, c in board.current_board.items():
-                click = c.clicked()
-                if type(click) == tuple:
-                    print(k, click[1][0], click[1][1])
+            click = c.clicked()
+            if type(click) == tuple:
+                select_rect.x = click[1][1][0]
+                select_rect.y = click[1][1][1]
+                print(k, click[1][0], click[1][1], board.current_board[k])
+                if show_rect == False:
+                    show_rect = True
+                else:
+                    show_rect = False
+                    
+                    
     elif event.type == pygame.MOUSEMOTION:
         pass
     elif event.type == pygame.KEYDOWN:
@@ -72,6 +83,8 @@ def on_event(event):
 
     pygame.event.pump()
 
+    
+    
     
         
 
@@ -97,10 +110,6 @@ if __name__ == "__main__":
     
     while True:
         
-        for event in pygame.event.get():
-            on_event(event)            
-        
-        
         if gameState == False: # When the game is paused, i.e.: in the start menu
             DISPLAYSURFACE.blit(img, (0, 0))
             btn1.render()
@@ -112,11 +121,15 @@ if __name__ == "__main__":
         elif gameState == True:
             DISPLAYSURFACE.fill((200, 200, 200))
             board.render(DISPLAYSURFACE)
+            if show_rect:
+                pygame.draw.rect(DISPLAYSURFACE, SELECT_GREEN, select_rect)
             for keys, content in board.starting_board.items():
                 board.current_board[keys].render(DISPLAYSURFACE)
                 _rec = board.current_board['A1'].rect
+        
 
-
+        for event in pygame.event.get():
+            on_event(event)
 
 
         rec.x = mouse_pos[0] - 10
