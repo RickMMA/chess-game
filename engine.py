@@ -96,10 +96,10 @@ class chessPiece(pygame.sprite.Sprite):
         if piece[0] != "--":
             self._image = pygame.image.load(
                 os.path.join(os.getcwd(), "assets", "chess_pieces", f"{piece[0]}.png")).convert_alpha()
-            self.image = pygame.transform.scale_by(self._image, 2)
             self.rect = pygame.Rect((self.pos[0], self.pos[1]),
-                (self.image.get_size()[0], self.image.get_size()[1]))
+                (self._image.get_size()[0], self._image.get_size()[1]))
         else:
+            # Insert rect when there is no piece
             self.rect = pygame.Rect((self.pos[0], self.pos[1]),
                 (self._default_image_size[0], self._default_image_size[1])) 
             
