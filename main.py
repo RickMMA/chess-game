@@ -119,7 +119,7 @@ if __name__ == "__main__":
             DISPLAYSURFACE.blit(f, (SCREEN_WIDTH/2 - f.get_width()/2, SCREEN_HEIGHT/4))
             
         elif gameState == True:
-            DISPLAYSURFACE.fill((200, 200, 200))
+            DISPLAYSURFACE.fill((0, 0, 0))
             board.render(DISPLAYSURFACE)
             if show_rect:
                 pygame.draw.rect(DISPLAYSURFACE, SELECT_GREEN, select_rect)
